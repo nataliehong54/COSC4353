@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Chakra</title>
+  
+  <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="./styling/index.css">
+</head>
+<body>
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand" href="./index.html">CHAKRA</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li><a href="./pages/about.html">About</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="./static/Profile_Management_Form.html">My Profile</a></li>
+        <li><a href="./static/login.html"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+  
+<br>
+
+<div class="dashboard-container">
+  <div class="fuel-quote-form">
+    <h2>Fuel Quote Form</h2>
+    <form id="fuel_quote_form">
+      <ul>
+        <li>
+          <label for="gallons" >Gallons:</label>
+          <input type="number" id="gallons" name="gallon_input">
+        </li>
+        <li>
+          <label for="delivery_address" >Delivery Address:</label>
+          <input type="address" id="delivery_address" name="delivery_address_input1" value="" readonly>
+        </li>
+        <li>
+          <label for="delivery_address2" >Delivery Address 2:</label>
+          <input type="address2" id="delivery_address2" name="delivery_address_input2" value="200" readonly>
+        </li>
+        <li>
+          <label for="city" >City:</label>
+          <input type="text" id="city" name="city_input" value="Houston" readonly>
+        </li>
+        <li>
+          <label for="state" >State:</label>
+          <input type="text" id="state" name="state_input" value="TX" readonly>
+        </li>
+        <li>
+          <label for="zip_code">Zip code:</label>
+          <input type="text" id="zip_code" name="zip_code_input" value="77004" readonly>
+        </li>
+        <li>
+          <label for="delivery_date">Delivery date:</label>
+          <input type="date" id="delivery_date" name="delivery_date_input">
+        </li>
+        <li class="button">
+          <button type="button" onclick="submitFuelForm()">Send your message</button>
+        </li>
+      </ul>
+    </form>
+  </div>
+  
+  <div class="fuel-quote-result">
+    <h2>Fuel Quote Result</h2>
+    <ul>
+      <li>
+        Price: <p style="font-weight: bold;">$200</p>
+      </li>
+      <li>
+        Shipping: <p style="font-weight: bold;">$25</p>
+      </li>
+      <li>
+        Tax: <p style="font-weight: bold;">$30</p>
+      </li>
+      <li>
+        Total: <p style="font-weight: bold;">$250</p>
+      </li>
+    </ul>
+  </div>
+
+  
+</div>
+<div class="fuel-quote-history">
+  Fuel Quote History
+  <div id="dynamic_history">
+
+  </div>
+</div>
+
+
+<footer class="footer">
+  <p>Footer Text</p>
+</footer>
+
+<script src="./script/main.js"></script>
+</body>
+</html>

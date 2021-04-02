@@ -1,5 +1,4 @@
 CHIKARA APP
-shubha made this change
 
 1. cd server
 2. npm install

@@ -1,0 +1,57 @@
+body{
+  margin-top: 5%;
+  margin-right: 5%;
+  margin-left: 5%;
+}
+
+.navbar{
+  margin-bottom: 0;
+  border-radius: 0;
+}
+
+.dashboard-container{
+  display: flex;
+}
+
+.fuel-quote-form{
+  flex: 50%;
+  height: 40vh;
+  border-radius: 2%;
+  border-style: solid;
+  margin-right:5px;
+}  
+
+.fuel-quote-result{
+  flex: 50%;
+  height: 40vh;
+  border-radius: 2%;
+  border-style: solid;
+  margin-left:5px;
+}
+
+.fuel-quote-form ul{
+  list-style-type: none;
+}
+
+.footer{
+  position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+.fuel-quote-history{
+  flex: 50%;
+  height: 40vh;
+  border-radius: 2%;
+  border-style: solid;
+  margin-left:5px;
+  margin-top: 10px;
+}
+
+.ul_list{
+  list-style: none;
+}
+
+.fuel-quote-result ul{
+  list-style-type: none;
+}

@@ -78,10 +78,12 @@ var password1
 
 //Login Routes
 app.get("/login", (req, res)=>{
-    res.sendFile('../client/static/login.html',{root: __dirname})
+    console.log("GET /login called");
+    res.status(200).sendFile('../client/static/login.html',{root: __dirname})
 });
 
 app.post("/login", async(req, res)=>{
+    console.log("POST /login called");
     const {username, password} = req.body
     const userlogin = await UserCreds.findOne({username}).lean()
 
@@ -96,7 +98,7 @@ app.post("/login", async(req, res)=>{
         JWT_SECRET)
         return res.json({status: 'ok', data:token})
     }
-    res.json({status: 'Error', error: 'WHAT?'})
+    res.status(200).json({status: 'Error', error: 'WHAT?'})
 })
 
 app.get("/saveconfirmation",(req,res)=>{
@@ -275,6 +277,7 @@ app.post("/register", async(req,res) =>{
 
 
 app.get('/getUserAddress', async(req, res) => {
+    console.log("/getUserAddress called");
     const address_data = {
         name: save_name,
         add_1: save_Address_1,
@@ -283,7 +286,7 @@ app.get('/getUserAddress', async(req, res) => {
         state: save_State,
         zipcode: save_Zipcode,
     }
-    res.send(address_data)
+    res.status(200).send(address_data);
 })
 
 app.post('/handleFuelQuoteForm', async(req, res) => {

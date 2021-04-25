@@ -2,6 +2,10 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema;
 
 const ProfileInfoSchema = new Schema({
+    Username: {
+        type: String,
+        required: true
+    },
     FullName:{
         type: String,
         required: true
@@ -30,5 +34,5 @@ const ProfileInfoSchema = new Schema({
 
 }, {timestamps: true})
 
-const ProfileManagement = mongoose.model('user info', ProfileInfoSchema);
+const ProfileManagement = mongoose.model('user infos', ProfileInfoSchema);
 module.exports = ProfileManagement;

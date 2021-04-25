@@ -2,9 +2,44 @@ var counter = 0
 
 get_address()
 
-async function submitFuelForm(){
-    // console.log("printing")
-    // console.log(document.getElementById("gallons"))
+async function logout(){
+    
+}
+
+async function getQuote(){
+    const the_form = document.getElementById("fuel_quote_form");
+    const data = new FormData(the_form);
+    const value = Object.fromEntries(data.entries());
+    for (const [key, values] of data.entries()){
+        console.log(key)
+        if (values == ''){
+            alert("Please fill all the required fields")
+            return;
+        }
+    }
+    try {
+        const response = await fetch("http://localhost:5000/getQuote", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(value)
+        });
+        data_returned = await response.json();
+        console.log(data_returned)
+        document.getElementById("price").innerHTML=`$${data_returned.suggested_price}`;
+        document.getElementById("subtotal").innerHTML=`$${data_returned.subtotal}`;
+        document.getElementById("shipping").innerHTML=`$0.00`;
+        document.getElementById("tax").innerHTML=`$${data_returned.tax}`;
+        document.getElementById("grandtotal").innerHTML=`$${data_returned.grand_total}`;
+
+    } catch(err){
+        console.log(err)
+    }
+
+}
+
+async function submitQuote(){
+    getQuote()
+
     let data_returned = '';
     const the_form = document.getElementById("fuel_quote_form");
     const data = new FormData(the_form);
@@ -17,6 +52,7 @@ async function submitFuelForm(){
         }
     }
 
+    console.log(value);
     try {
         const response = await fetch("http://localhost:5000/handleFuelQuoteForm", {
             method: "POST",
@@ -26,18 +62,26 @@ async function submitFuelForm(){
         data_returned = await response.json();
         console.log(data_returned)
         fuel_history = document.getElementById('dynamic_history')
-        html = ''
+        html = `<table> 
+                <tr>
+                    <th>Gallons</th>
+                    <th>Date Requested</th>
+                    <th>City</th>
+                    <th>Price</th>
+                </tr>`;
         if (data_returned != null){
             for (const i in data_returned){
                 console.log(data_returned[i])
-                html += '<ul class="ul_list">'
+                html += '<tr>'
                 for (const key in data_returned[i]){
                     console.log(data_returned[i][key])
-                    html += `<li>${data_returned[i][key]}</li>`
+                    if (key == 'price') html += `<th>$${data_returned[i][key]}</th>`
+                    else html += `<th>${data_returned[i][key]}</th>`
                 }
-                html += '</ul>'
+                html += '</tr>'
             }
         }
+        html += '</table>'
         fuel_history.innerHTML = html;
 
     } catch(err){

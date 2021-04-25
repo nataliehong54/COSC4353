@@ -27,7 +27,8 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li><a href="./static/Profile_Management_Form.html">My Profile</a></li>
-        <li><a href="./static/login.html"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+        <li><button><span class="glyphicon glyphicon-log-in"></span> Logout</button></li>
+        <!-- <li><a href="./static/login.html"><span class="glyphicon glyphicon-log-in"></span> Login</a></li> -->
       </ul>
     </div>
   </div>
@@ -69,7 +70,8 @@
           <input type="date" id="delivery_date" name="delivery_date_input">
         </li>
         <li class="button">
-          <button type="button" onclick="submitFuelForm()">Send your message</button>
+          <button type="button" onclick="getQuote()">Get Quote</button>
+          <button type="button" onclick="submitQuote()">Submit Quote</button>
         </li>
       </ul>
     </form>
@@ -79,16 +81,19 @@
     <h2>Fuel Quote Result</h2>
     <ul>
       <li>
-        Price: <p style="font-weight: bold;">$200</p>
+        Price/gallon: <p id="price" style="font-weight: bold;"></p>
       </li>
       <li>
-        Shipping: <p style="font-weight: bold;">$25</p>
+        Subtotal: <p id="subtotal" style="font-weight: bold;"></p>
       </li>
       <li>
-        Tax: <p style="font-weight: bold;">$30</p>
+        Shipping: <p id="shipping" style="font-weight: bold;"></p>
       </li>
       <li>
-        Total: <p style="font-weight: bold;">$250</p>
+        Tax: <p id="tax" style="font-weight: bold;"></p>
+      </li>
+      <li>
+        Grand Total: <p id="grandtotal" style="font-weight: bold;"></p>
       </li>
     </ul>
   </div>
@@ -96,9 +101,8 @@
   
 </div>
 <div class="fuel-quote-history">
-  Fuel Quote History
+  <h2>Fuel Quote History</h2>
   <div id="dynamic_history">
-
   </div>
 </div>
 

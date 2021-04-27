@@ -28,6 +28,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li><a href="./static/Profile_Management_Form.html">My Profile</a></li>
         <li><a href="./static/login.html"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+        <li><a href="./static/login.html"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
       </ul>
     </div>
   </div>
@@ -85,7 +86,7 @@
             
             </script></li>
         <li class="button">
-          <button type="button" onclick="submitFuelForm()" disabled value="Submit Quote">Submit Quote</button>
+          <button type="button" onclick="submitFuelForm()" value="Submit Quote">Submit Quote</button>
         </li>
       </ul>
     </form>
@@ -124,6 +125,12 @@
 </footer>
 
 <script src="./script/main.js"></script>
+<script type="text/javascript">
+  function redirect()
+{
+window.location.href="../index.html";
+}
+</script>
 
 </body>
 </html>

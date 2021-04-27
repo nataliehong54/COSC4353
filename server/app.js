@@ -73,7 +73,9 @@ app.get("/index", function(req,res){
 //app.use(express.static(path.join(__dirname, '/static')));
 
 let userinfo = '';
+//variable for unique identifier for database collections
 var username1
+var username11
 var password1
 
 //Login Routes
@@ -85,6 +87,7 @@ app.get("/login", (req, res)=>{
 app.post("/login", async(req, res)=>{
     console.log("POST /login called");
     const {username, password} = req.body
+    username1 = username
     const userlogin = await UserCreds.findOne({username}).lean()
 
     if(!userlogin){
@@ -94,6 +97,7 @@ app.post("/login", async(req, res)=>{
         const token = jwt.sign({
             id: userlogin._id,
             username: userlogin.username
+            
         },
         JWT_SECRET)
         return res.json({status: 'ok', data:token})
@@ -226,6 +230,7 @@ var confirm1
 app.post("/register", async(req,res) =>{
     console.log("register user")
     const { username, password: plainTextPassword} = req.body
+    username1 = username
     //console.log('Confirm password: ' + cf)
     //const { username, password: plainTextPassword, confirm } = req.body
 
@@ -324,6 +329,7 @@ app.get('/sendmongo', async(req, res) => {
     console.log(save_name)
 
     const SaveMongo = new ProfileManagement({
+        Username: username1,
         FullName: save_name,
         Address1: save_Address_1,
         Address2: save_Address_2,

@@ -2,7 +2,11 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema;
 
 const ProfileInfoSchema = new Schema({
-    FullName:{
+    Username: {
+        type: String,
+        required: true
+    },
+    FullName: {
         type: String,
         required: true
     },

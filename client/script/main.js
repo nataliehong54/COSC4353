@@ -71,3 +71,19 @@ async function get_address(){
         zipcode.value = data_returned['zipcode']
     }
 }
+
+async function getFuelQUote(){
+    const gallons = document.getElementById('gallons').value;
+    const state = document.getElementById('state').value;
+    const body = {gallons, state};
+    try{
+        const result = await fetch('http://localhost:5000/handleFuelQuoteForm', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json'},
+            body: JSON.stringify(body)
+        });
+        result.json();
+    }catch(err){
+        console.log(err);
+    }
+}

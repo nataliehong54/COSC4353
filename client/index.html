@@ -68,8 +68,24 @@
           <label for="delivery_date">Delivery date:</label>
           <input type="date" id="delivery_date" name="delivery_date_input">
         </li>
+        <li><input type="submit" id="getquote" value="Get Quote" onclick="getFuelQuote()">
+          <script type="text/javascript">
+            function buttonstate(){
+              $("input").each(function(){
+                $('#getquote').attr('disbaled', 'disabled');
+                if($(this).val() == "") return false;
+                $('#getquote').attr('disabled', '');
+              })
+            }
+
+            $(function(){
+              $('#getquote').attr('disabled', 'disabled');
+              $('input').change(buttonState);
+            })
+            
+            </script></li>
         <li class="button">
-          <button type="button" onclick="submitFuelForm()">Send your message</button>
+          <button type="button" onclick="submitFuelForm()" disabled value="Submit Quote">Submit Quote</button>
         </li>
       </ul>
     </form>
@@ -108,5 +124,6 @@
 </footer>
 
 <script src="./script/main.js"></script>
+
 </body>
 </html>

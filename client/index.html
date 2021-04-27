@@ -27,7 +27,7 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li><a href="./static/Profile_Management_Form.html">My Profile</a></li>
-        <li><button><span class="glyphicon glyphicon-log-in"></span> Logout</button></li>
+        <li><a href="./static/login.html"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
         <!-- <li><a href="./static/login.html"><span class="glyphicon glyphicon-log-in"></span> Login</a></li> -->
       </ul>
     </div>
@@ -70,8 +70,8 @@
           <input type="date" id="delivery_date" name="delivery_date_input">
         </li>
         <li class="button">
-          <button id = "getquoteHide" type="button" onclick="getQuote()">Get Quote</button>
-          <button id = "submitquoteHide" type="button" onclick="submitQuote()">Submit Quote</button>
+          <button type="button" id="get_quote_btn" onclick="getQuote()">Get Quote</button>
+          <button type="button" id="submit_quote_btn" onclick="submitQuote()">Submit Quote</button>
         </li>
       </ul>
     </form>
@@ -111,6 +111,6 @@
   <p>Footer Text</p>
 </footer>
 
-<script src="./script/main.js"></script>
+<script src="./scripts/main.js"></script>
 </body>
 </html>

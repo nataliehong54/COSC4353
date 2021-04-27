@@ -65,13 +65,14 @@ app.listen(port, () => console.log(`App listening at http://localhost:${port}`))
 //app.use(passport.session());
 
 var global_username = ''
-
+/*
 app.get("/", function(req,res){
     res.sendFile(__dirname + '/index.html');
 })
 app.get("/index", function(req,res){
     res.render('client/index');
 })
+*/
 //app.use(express.static(path.join(__dirname, '/static')));
 
 let userinfo = '';
@@ -79,10 +80,12 @@ var username1
 var password1
 
 //Login Routes
+/*
 app.get("/login", (req, res)=>{
     console.log("GET /login called");
     res.status(200).sendFile('../client/static/login.html',{root: __dirname})
 });
+*/
 
 app.post("/login", async(req, res)=>{
     console.log("POST /login called");
@@ -104,16 +107,19 @@ app.post("/login", async(req, res)=>{
     }
     res.json({status: 'Error', error: 'WHAT?'})
 })
-
+/*
 app.post("/logout", async(req,res) => {
     
 })
+*/
 
-app.get("/saveconfirmation",(req,res)=>{
-    // res.send({message: "Profile saved! Please return and check your homepage!"})
+/*app.get("/saveconfirmation",(req,res)=>{
+    res.send({message: "Profile saved! Please return and check your homepage!"})
     res.end();
 })
+*/
 
+/*
 app.post("/printCounter", async (req, res) => {
     try{
         console.log(req.body.count);
@@ -121,6 +127,7 @@ app.post("/printCounter", async (req, res) => {
         console.log(err.message);
     }
 })
+*/
 
 let data_to_send = '';
 
@@ -213,15 +220,17 @@ app.post("/send_data", async (req, res) => {
     });
 
     SaveMongo.save()
+    /*
         .then((result)=>{
             res.redirect('/saveconfirmation')
         })
         .catch((err)=>{
             console.log(err);
         });
+        */
 
 
-    res.json({status: 'ok'})
+    res.send('ok')
 })
 
 

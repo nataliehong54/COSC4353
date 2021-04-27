@@ -6,7 +6,7 @@ const ProfileInfoSchema = new Schema({
         type: String,
         required: true
     },
-    FullName: {
+    FullName:{
         type: String,
         required: true
     },
@@ -34,5 +34,5 @@ const ProfileInfoSchema = new Schema({
 
 }, {timestamps: true})
 
-const ProfileManagement = mongoose.model('user info', ProfileInfoSchema);
+const ProfileManagement = mongoose.model('user infos', ProfileInfoSchema);
 module.exports = ProfileManagement;

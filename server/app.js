@@ -64,6 +64,8 @@ app.listen(port, () => console.log(`App listening at http://localhost:${port}`))
 //app.use(passport.initialize());
 //app.use(passport.session());
 
+var global_username = ''
+
 app.get("/", function(req,res){
     res.sendFile(__dirname + '/index.html');
 })
@@ -87,7 +89,7 @@ app.get("/login", (req, res)=>{
 app.post("/login", async(req, res)=>{
     console.log("POST /login called");
     const {username, password} = req.body
-    username1 = username
+    global_username = username;
     const userlogin = await UserCreds.findOne({username}).lean()
 
     if(!userlogin){
@@ -100,9 +102,14 @@ app.post("/login", async(req, res)=>{
             
         },
         JWT_SECRET)
+        console.log('user: ' + username + ' logged in')
         return res.json({status: 'ok', data:token})
     }
-    res.status(200).json({status: 'Error', error: 'WHAT?'})
+    res.json({status: 'Error', error: 'WHAT?'})
+})
+
+app.post("/logout", async(req,res) => {
+    
 })
 
 app.get("/saveconfirmation",(req,res)=>{
@@ -133,44 +140,32 @@ var save_City
 var save_State
 var save_Zipcode
 
+var global_grand_total = '';
+
 
 app.post("/send_data", async (req, res) => {
+    console.log("/send_data API fetched ")
 
-    console.log("api fetched")
-    //console.log("Using Body - parser", req.body.var2)
     if(req.body.var1 == '' || req.body.var1 == null)
         console.log('---!Name is required.')
-           
     else if(req.body.var1.length >= 50)
         console.log('---!Name needs to be below 50 characters.')
-    
     else{
         var Full_Name1 = req.body.var1
         save_name = Full_Name1
     }
-    /*
-    const Full_Name1 = req.body.var1
-    const save_name = Full_Name1
-    
-*/
 
     if(req.body.var2 == '' || req.body.var2 == null)
         console.log('---!Address is required.')
     else if(req.body.var2.length >= 100)
         console.log('---!Address needs to be below 100 characters.')
-      
     else{
         var street = req.body.var2
         save_Address_1 = street
     }
-    /*
-    const street = req.body.var2
-    const save_Address_1 = street
-*/
 
     if(req.body.var3.length >= 100)
         console.log('---!Address needs to be below 100 characters.')
-      
     else{
         var street2 = req.body.var3
         save_Address_2 = street2
@@ -179,25 +174,19 @@ app.post("/send_data", async (req, res) => {
     if(req.body.var4 == '' || req.body.var4 == null){
         console.log('---!City is required.')
       }
-
     else if(req.body.var4.length >= 100)
         console.log('---!City needs to be below 100 characters.')
-
     else{
         var city = req.body.var4
         save_City = city
     }
-/*
-    const city = req.body.var4
-    const save_City = city
-*/
+
     var state = req.body.var5
     save_State = state
 
     if(req.body.var6 == '' || req.body.var6 == null){
         console.log('---!Zipcode is required.')
       }
-    
     else if(req.body.var6.length != 5){
         console.log('---!5 character zipcode required.')
       }
@@ -205,18 +194,37 @@ app.post("/send_data", async (req, res) => {
         var zipcode = req.body.var6
         save_Zipcode = zipcode
     }
-    
 
-    console.log('Full Name: ' + Full_Name1)
-    console.log('street1: ' + street)
-    console.log('street2: ' + street2)
-    console.log('city: ' + city)
-    console.log('state: ' + state)
-    console.log('zipcode: ' + zipcode)
+    console.log(req.body);
 
-    const fuel_quote_data = req.body
+    const SaveMongo = new ProfileManagement({
+        Username: global_username,
+        FullName: save_name,
+        Address1: save_Address_1,
+        Address2: save_Address_2,
+        City: save_City,
+        State: save_State,
+        Zipcode: save_Zipcode
+    });
 
-    res.json(data_to_send)
+    ProfileManagement.deleteMany({ Username: global_username }).then(function(){
+        // Success
+        console.log(`${global_username}'s previous addresses deleted`); 
+    }).catch(function(error){
+        // Failure
+        console.log(error); 
+    });
+
+    SaveMongo.save()
+        .then((result)=>{
+            res.redirect('/saveconfirmation')
+        })
+        .catch((err)=>{
+            console.log(err);
+        });
+
+
+    res.json({status: 'ok'})
 })
 
 
@@ -230,9 +238,7 @@ var confirm1
 app.post("/register", async(req,res) =>{
     console.log("register user")
     const { username, password: plainTextPassword} = req.body
-    username1 = username
-    //console.log('Confirm password: ' + cf)
-    //const { username, password: plainTextPassword, confirm } = req.body
+    global_username = username;
 
     if (!username || typeof username !== 'string') {
 		return res.json({ status: 'error', error: 'Invalid username' })
@@ -248,7 +254,7 @@ app.post("/register", async(req,res) =>{
 			error: 'Password needs to be atleast 6 characters'
 		})
 	}
-    //res.json(registerinfo)
+    
     mongoose.connect(uri,{useNewUrlParser: true, useUnifiedTopology: true})
     .then((result) => console.log("connected to db"))
     .catch((err) => console.log(err));
@@ -264,20 +270,8 @@ app.post("/register", async(req,res) =>{
         }
         throw err
     }
+    console.log('user: ' + username + ' logged in')
     res.json({status:'ok'})
-   
-   /*     
-    const SaveUserinfo = new UserCreds({
-            username: usernamee,
-            password: passwordd
-        });
-    SaveUserinfo.save().then((result)=>{
-            res.redirect('/')
-            
-            //res.sendFile('../client/static/Profile_Management_Form.html',{root: __dirname})
-        }).catch((err)=>{
-            console.log(err);
-        })   */
 })
 
 
@@ -291,13 +285,83 @@ app.get('/getUserAddress', async(req, res) => {
         state: save_State,
         zipcode: save_Zipcode,
     }
-    res.status(200).send(address_data);
+    res.send(address_data);
+})
+
+app.post('/getQuote', async(req, res) => {
+    //connecting to db
+    const client = new MongoClient(uri);
+
+    //calculting price
+    const current_price = 1.5;
+    const company_factor = 0.1;
+
+    //check if user has requested quote before
+    var historyExists = false;
+    var rate_history_factor = 0;
+    try {
+        await client.connect();
+        const database = client.db("SoftwareDesign");
+        const collection = database.collection("fuel_quote_form_history");
+        // create a document to be inserted
+        collection.find({Username: global_username}).toArray(function(err, result) {
+            if (err) throw err;
+            if (result != []) historyExists = true;
+          });
+      } finally {
+        await client.close();
+      }
+      if (historyExists) rate_history_factor = 0.1;
+
+    //check if user is in state or out of state
+    var location_factor;
+    if (req.body.sate_input == 'TX') location_factor = 0.02;
+    else location_factor = 0.04;
+
+    //check how much gallons user is requesting
+
+    var gallons_factor;
+    if (req.body.gallon_input > 1000) gallons_factor = 0.02;
+    else gallons_factor = 0.03;
+
+    console.log(typeof req.body.gallon_input);
+    
+    //calculating the margin
+    const margin = current_price * (location_factor - rate_history_factor + gallons_factor + company_factor);
+    const suggested_price_per_gallon = current_price + margin;
+    const tax_total = suggested_price_per_gallon * parseInt(req.body.gallon_input) * location_factor;
+    const subtotal = suggested_price_per_gallon * parseInt(req.body.gallon_input);
+    const grand_total = subtotal + tax_total;
+    global_grand_total = grand_total;
+
+    //sending the price calculations to frontend
+    res.send({
+        suggested_price: suggested_price_per_gallon, 
+        tax: tax_total,
+        subtotal: subtotal,
+        grand_total: grand_total
+    });
 })
 
 app.post('/handleFuelQuoteForm', async(req, res) => {
     const client = new MongoClient(uri);
-    const fuel_quote_data = req.body;
-    var data_to_send;
+
+    console.log(req.body);
+    
+    var datetime = new Date();
+
+    //saving data to send to mongo in an object
+    const fuel_quote_data = {
+        Username: global_username,
+        fuel_quote_gallons: req.body.gallon_input,
+        fuel_quote_date: datetime,
+        deliver_date: req.body.delivery_date_input,
+        city_input: req.body.city_input,
+        price: global_grand_total
+    }
+
+    var data_to_send = [];
+
     try {
         await client.connect();
         const database = client.db("SoftwareDesign");
@@ -307,29 +371,31 @@ app.post('/handleFuelQuoteForm', async(req, res) => {
         console.log(
           `${result.insertedCount} documents were inserted with the _id: ${result.insertedId}`,
         );
-        collection.find({}).toArray(function(err, result) {
+        collection.find({Username: global_username}).toArray(function(err, result) {
             if (err) throw err;
-            data_to_send = result;
+
+            console.log("result");
+            console.log(result);
+
+            for (var i = 0; i < result.length; i++){
+                const obj_to_append = {
+                    gallons: result[i].fuel_quote_gallons,
+                    delivery_date: result[i].fuel_quote_date,
+                    delivery_city: result[i].city_input,
+                    price: result[i].price
+                }
+                data_to_send.push(obj_to_append)
+            }
           });
-        
       } finally {
         await client.close();
       }
 
-      res.send(data_to_send);
-})
-
-app.get('/sendmongo', async(req, res) => {
-    /*
-    console.
-    fuel_quote_data = req.body
-    
-    */
-    console.log("/sendmongo call successful")
-    console.log(save_name)
+      console.log("data sending from /handleFuelQuoteForm");
+      console.log(data_to_send);
 
     const SaveMongo = new ProfileManagement({
-        Username: username1,
+        Username: global_username,
         FullName: save_name,
         Address1: save_Address_1,
         Address2: save_Address_2,
@@ -346,4 +412,3 @@ app.get('/sendmongo', async(req, res) => {
             console.log(err);
         });
 })
-

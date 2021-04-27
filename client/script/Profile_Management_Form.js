@@ -15,34 +15,14 @@ function validate(){
     if(Full_Name.value == '' || Full_Name.value == null){
       messages.push('Name is required.')
     }
-  /*
-    if(Full_Name.value.length >= 50){
-      messages.push('Name needs to be below 50 characters.')
-    }
-    */
 
     if(Address_1.value == '' || Address_1.value == null){
       messages.push('Address is required.')
     }
-  /*
-    if(Address_1.value.length >= 100){
-      messages.push('Address needs to be below 100 characters.')
-    }
-
-    if(Address_2.value.length >= 100){
-      messages.push('Address needs to be below 100 characters.')
-    }
-    */
 
     if(City.value == '' || City.value == null){
       messages.push('City is required.')
     }
-
-    /*
-    if(City.value.length > 100){
-      messages.push('City needs to be below 100 characters.')
-    }
-    */
 
     if(Zipcode.value == '' || City.value == null){
       messages.push('Zipcode is required.')
@@ -57,15 +37,12 @@ function validate(){
       errorElement.innerText = messages.join(', ')
     } else{
       send_data()
-      fetch("http://localhost:5000/sendmongo", {
-        method: "Get",
-        headers: { "Content-Type": "application/json" },
-      });
     }
   })
 }
 
 async function send_data(){
+  console.log("send_data function called")
   const body = {
     var1 : Full_Name.value,
     var2 : Address_1.value,
@@ -73,46 +50,18 @@ async function send_data(){
     var4 : City.value,
     var5 : State.value,
     var6 : Zipcode.value
-
   }
-
-  /*
-  const body1 = {
-    var1 : Full_Name.value
-  }
-  */
   try {   
     const response = await fetch("http://localhost:5000/send_data", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body)
     });
-
-    //const send_name = Full_Name
-   
-    data_returned = await response.json();
-    // res.redirect('/client/index.html')
     display_data()
   } catch(err){
       console.log(err)
   }
-
-
- 
 }
-
-  // try{
-  //    const response_mongo = await fetch("http://localhost:5000/sendmongo", {
-  //       method: "Get",
-  //       headers: { "Content-Type": "application/json" },
-  //     });
-  //     data_returned = await response_mongo.json();
-  //     console.log("data returned")
-  //   }catch(err){
-  //     console.log(err)
-  //   }
-
-
 
 async function display_data(){
   try {
@@ -124,45 +73,15 @@ async function display_data(){
     console.log(data_returned)
     user_info_section = document.getElementById('user_info');
     if (data_returned != null){
-      html = '<ul class="user_info">'
-      for (var key in data_returned){
-          var value = data_returned[key]
-          html += `<li>${value}</li>`
-      }
-      html += '</ul>'
+      html = '<div class="card">'
+          html += `<h1>${data_returned['name']}</h1>`;
+          html += `<p class="title">${data_returned['add_1']} ${data_returned['add_2']}</p>`;
+          html += `<h3>${data_returned['city']}, ${data_returned['state']}</h3>`;
+          html += `<h3>${data_returned['zipcode']}</h3>`
+      html += '</div'
       user_info_section.innerHTML = html;
     }
   } catch(err){
       console.log(err)
   }
-}
-
-
-/*
-//drop down box
-function myFunction() {
-    document.getElementById("myDropdown").classList.toggle("show");
-  }
-  window.onclick = function(event) {
-    if (!event.target.matches('.dropbtn')) {
-      var dropdowns = document.getElementsByClassName("dropdown-content");
-      var i;
-      for (i = 0; i < dropdowns.length; i++) {
-        var openDropdown = dropdowns[i];
-        if (openDropdown.classList.contains('show')) {
-          openDropdown.classList.remove('show');
-        }
-      }
-    }
-  }
-  */
-
-function send_address(){
-    console.log("send_address is being called")
-    try {
-        console.log("calling /sendmongo")
-        console.log("successful /sendmongo call");
-    } catch(err){
-        console.log(err)
-    }
 }

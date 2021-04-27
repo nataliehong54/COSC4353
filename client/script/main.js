@@ -2,10 +2,6 @@ var counter = 0
 
 get_address()
 
-async function logout(){
-    
-}
-
 async function getQuote(){
     const the_form = document.getElementById("fuel_quote_form");
     const data = new FormData(the_form);

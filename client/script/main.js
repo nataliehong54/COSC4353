@@ -1,4 +1,10 @@
 var counter = 0
+const HideGetQuote = document.getElementById("getquoteHide");
+const HideSubmitQuote = document.getElemenyById("submitquoteHide");
+
+HideGetQuote.addEventListener()
+
+
 
 get_address()
 

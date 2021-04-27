@@ -75,9 +75,7 @@ app.get("/index", function(req,res){
 //app.use(express.static(path.join(__dirname, '/static')));
 
 let userinfo = '';
-//variable for unique identifier for database collections
 var username1
-var username11
 var password1
 
 //Login Routes
@@ -99,7 +97,6 @@ app.post("/login", async(req, res)=>{
         const token = jwt.sign({
             id: userlogin._id,
             username: userlogin.username
-            
         },
         JWT_SECRET)
         console.log('user: ' + username + ' logged in')
@@ -394,21 +391,5 @@ app.post('/handleFuelQuoteForm', async(req, res) => {
       console.log("data sending from /handleFuelQuoteForm");
       console.log(data_to_send);
 
-    const SaveMongo = new ProfileManagement({
-        Username: global_username,
-        FullName: save_name,
-        Address1: save_Address_1,
-        Address2: save_Address_2,
-        City: save_City,
-        State: save_State,
-        Zipcode: save_Zipcode
-    });
-    
-    SaveMongo.save()
-        .then((result)=>{
-            res.redirect('/saveconfirmation')
-        })
-        .catch((err)=>{
-            console.log(err);
-        });
+      res.send(data_to_send);
 })
